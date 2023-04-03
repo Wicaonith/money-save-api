@@ -32,6 +32,7 @@ export class CategoriesMetier {
         if(newCategory.id === undefined){
             return ErrorManagementService.failed('Category creation failed.', CodeError.FC0002_D0003);
         }
+        this.update(newCategory.id, CategoriesMapper.dtoToParams(newCategory));
         return ErrorManagementService.success('Category created.');
     }
 
