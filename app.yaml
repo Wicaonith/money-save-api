@@ -1,0 +1,9 @@
+# [START runtime]
+runtime: nodejs18
+handlers:
+- url: /
+  static_files: dist/budgetiz-api/index.html
+  upload: dist/budgetiz-api/index.html
+- url: /
+  static_dir: dist/budgetiz-api
+# [END runtime]
