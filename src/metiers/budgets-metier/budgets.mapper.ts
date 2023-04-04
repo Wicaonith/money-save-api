@@ -70,8 +70,8 @@ export class BudgetsMapper {
             fId,
             userId,
             label,
-            categoryId: category.fId,
-            pictoId: picto.fId,
+            category: category,
+            picto: picto,
             displayOrder
         };
 
