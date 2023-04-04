@@ -32,6 +32,7 @@ export class BudgetsMetier {
         if(newBudget.id === undefined){
             return ErrorManagementService.failed('Budget creation failed.', CodeError.FC0003_D0003);
         }
+        this.update(newBudget.id, newBudget);
         return ErrorManagementService.success('Budget created.');
     }
 
