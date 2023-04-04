@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 import { SchemaTypes } from 'mongoose';
+import { Category } from 'src/models/schemas/category.schema';
+import { Pictogram } from 'src/models/schemas/pictograms.schema';
 
 /**
  * BudgetParamsDto
- * Prend les id en attribut pour Category et Pictogram plutôt que leur objet
  */
 export class BudgetParamsDto {
 
@@ -19,13 +20,13 @@ export class BudgetParamsDto {
     @IsNotEmpty()
     label: string;
 
-    @ApiProperty({ type: String })
+    @ApiProperty({ type: Category })
     @IsNotEmpty()
-    categoryId: string;
+    category: Category;
 
-    @ApiProperty({ type: String })
+    @ApiProperty({ type: Pictogram })
     @IsNotEmpty()
-    pictoId: string;
+    picto: Pictogram;
 
     @ApiProperty({ type: Number })
     @IsNotEmpty()
