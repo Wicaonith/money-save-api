@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
 import { Document, SchemaTypes } from 'mongoose';
+import { Pictogram } from './pictograms.schema';
+import { Category } from './category.schema';
 
 export type BudgetDocument = Budget & Document;
 
@@ -23,12 +25,12 @@ export class Budget {
     label: string;
 
     @Prop({ required: true })
-    @ApiProperty({ type: String })
-    categoryId: string;
+    @ApiProperty({ type: Category })
+    category: Category;
 
     @Prop()
-    @ApiProperty({ type: String })
-    pictoId: string;
+    @ApiProperty({ type: Pictogram })
+    picto: Pictogram;
 
     @Prop({ required: true })
     @ApiProperty({ type: Number })
