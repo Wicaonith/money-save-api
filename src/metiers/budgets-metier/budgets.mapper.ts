@@ -35,20 +35,14 @@ export class BudgetsMapper {
      * @memberof BudgetsMapper
      */
     static documentToDto(data: BudgetDocument): BudgetDto {
-        const { _id, userId, label, categoryId, pictoId, displayOrder } = data;
-
-        let categoryTmp = new CategoryDto();
-        categoryTmp.fId = categoryId;
-
-        let pictoTmp = new PictogramDto();
-        pictoTmp.fId = pictoId;
+        const { _id, userId, label, category, picto, displayOrder } = data;
 
         let budgetDto: BudgetDto = {
             fId: _id,
             userId,
             label,
-            category : categoryTmp,
-            picto : pictoTmp,
+            category : category,
+            picto : picto,
             displayOrder
         };
         return budgetDto;
