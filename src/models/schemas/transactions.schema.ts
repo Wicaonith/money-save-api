@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { ApiProperty, ApiTags } from "@nestjs/swagger";
 import { Document, SchemaTypes } from 'mongoose';
+import { Budget } from "./budgets.schema";
+import { Account } from "./accounts.schema";
 
 export type TransactionDocument = Transaction & Document;
 
@@ -22,10 +24,6 @@ export class Transaction {
 
     @Prop()
     @ApiProperty({ type: String })
-    year: string;
-
-    @Prop()
-    @ApiProperty({ type: String })
     month: string;
 
     @Prop()
@@ -33,12 +31,12 @@ export class Transaction {
     amount: number;
 
     @Prop()
-    @ApiProperty({ type: String })
-    accountId: string;
+    @ApiProperty({ type: Account })
+    account: Account;
 
     @Prop()
-    @ApiProperty({ type: String })
-    budgetId: string;
+    @ApiProperty({ type: Budget })
+    budget: Budget;
 
     @Prop()
     @ApiProperty({ type: String })
@@ -46,7 +44,7 @@ export class Transaction {
 
     @Prop()
     @ApiProperty({ type: String })
-    description: string;
+    note: string;
 }
 
 export const TransactionSchema = SchemaFactory.createForClass(Transaction);

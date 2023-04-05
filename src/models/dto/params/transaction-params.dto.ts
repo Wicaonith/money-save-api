@@ -1,9 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 import { SchemaTypes } from 'mongoose';
-import { AccountDto } from '../account.dto';
-import { BudgetDto } from '../budget.dto';
-import { CategoryDto } from '../category.dto';
+import { Account } from 'src/models/schemas/accounts.schema';
+import { Budget } from 'src/models/schemas/budgets.schema';
 
 /**
  * TransactionParamsDto
@@ -21,25 +20,21 @@ export class TransactionParamsDto {
 
     @ApiProperty({ type: String })
     @IsNotEmpty()
-    year: string;
-
-    @ApiProperty({ type: String })
-    @IsNotEmpty()
     month: string;
 
     @ApiProperty({ type: Number })
     @IsNotEmpty()
     amount: number;
 
-    @ApiProperty({ type: String })
+    @ApiProperty({ type: Account })
     @IsNotEmpty()
-    accountId: string;
+    account: Account;
+
+    @ApiProperty({ type: Budget })
+    @IsNotEmpty()
+    budget: Budget;
 
     @ApiProperty({ type: String })
     @IsNotEmpty()
-    budgetId: string;
-
-    @ApiProperty({ type: String })
-    @IsNotEmpty()
-    description: string;
+    note: string;
 }

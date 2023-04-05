@@ -20,10 +20,6 @@ export class TransactionDto {
 
     @ApiProperty({ type: String })
     @IsNotEmpty()
-    year: string;
-
-    @ApiProperty({ type: String })
-    @IsNotEmpty()
     month: string;
 
     @ApiProperty({ type: Number })
@@ -40,5 +36,5 @@ export class TransactionDto {
 
     @ApiProperty({ type: String })
     @IsNotEmpty()
-    description: string;
+    note: string;
 }

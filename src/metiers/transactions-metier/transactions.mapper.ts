@@ -16,9 +16,9 @@ export class TransactionsMapper {
      */
     static documentToDtoArray(datas: TransactionDocument[]): TransactionDto[] {
 
-        let retour : TransactionDto[] = new Array();
+        let retour: TransactionDto[] = new Array();
 
-        for(var data of datas) {
+        for (var data of datas) {
             let transactionDto = this.documentToDto(data);
             retour.push(transactionDto);
         }
@@ -35,23 +35,16 @@ export class TransactionsMapper {
      * @memberof TransactionsMapper
      */
     static documentToDto(data: TransactionDocument): TransactionDto {
-        const { _id, transactionDate, year, month, amount, accountId, budgetId, description } = data;
-
-        let accountTmp = new AccountDto();
-        accountTmp.fId = accountId;
-
-        let budgetTmp = new BudgetDto();
-        budgetTmp.fId = budgetId;
+        const { _id, transactionDate, month, amount, account, budget, note } = data;
 
         let transactionDto: TransactionDto = {
             fId: _id,
             transactionDate,
-            year,
             month,
             amount,
-            account: accountTmp,
-            budget: budgetTmp,
-            description
+            account: account,
+            budget: budget,
+            note
         };
         return transactionDto;
     }
@@ -66,17 +59,16 @@ export class TransactionsMapper {
      */
     static dtoToParams(data: TransactionDto): TransactionParamsDto {
 
-        const { fId, transactionDate, year, month, amount, account, budget, description } = data;
+        const { fId, transactionDate, month, amount, account, budget, note } = data;
 
         let transactionParamsDto: TransactionParamsDto = {
             fId,
             transactionDate,
-            year,
             month,
             amount,
-            accountId: account.fId,
-            budgetId: budget.fId,
-            description
+            account: account,
+            budget: budget,
+            note
         };
 
         return transactionParamsDto;
