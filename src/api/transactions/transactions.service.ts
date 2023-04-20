@@ -74,17 +74,8 @@ export class TransactionsService {
 
     this.logger.log('[Transaction] - findAllByUserId() - ' + userId);
 
-    // Initialisation liste de retour
-    let retour: TransactionDto[] = new Array();
-
     // Récupération de la liste des Transactions pour un utilisateur
-    const transactionsDto = await this.transactionsMetier.findAllByUserId(userId);
-
-    for(let transaction of transactionsDto){
-
-      retour.push(await this.fillTransactionsAttributs(transaction));
-    }
-    return retour;
+    return await this.transactionsMetier.findAllByUserId(userId);
   }
 
   /**

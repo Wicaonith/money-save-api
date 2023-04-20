@@ -74,17 +74,8 @@ export class BudgetsService {
 
     this.logger.log('[Budget] - findAllByUserId() - ' + userId);
     
-    // Initialisation liste de retour
-    let retour: BudgetDto[] = new Array();
-
     // Récupération de la liste des Budgets pour un utilisateur
-    const budgetsDto = await this.budgetsMetier.findAllByUserId(userId);
-
-    for(let budget of budgetsDto){
-
-      retour.push(await this.fillBudgetAttributs(budget));
-    }
-    return retour;
+    return await this.budgetsMetier.findAllByUserId(userId);
   }
 
   /**
@@ -98,6 +89,7 @@ export class BudgetsService {
   public updateBudget(id: string, budgetParamsDto: BudgetParamsDto): Promise<ReturnApi> {
 
     this.logger.log('[Budget] - update() - ' + id + ' - ', { ...budgetParamsDto });
+    //TODO Lorsqu'on modifie un budget, il faut UPDATE toutes les transactions qui ont ce Budget associé
     return this.budgetsMetier.update(id, budgetParamsDto);
   }
 

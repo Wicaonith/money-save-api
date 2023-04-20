@@ -51,7 +51,7 @@ http://localhost:3000/swagger => Pour le swagger
   - constants/ = Classes de constantes
 
 
-## TODO 
+## TODO
 
 
 - Faire le CRUD de toutes les collections de façon "basiques"

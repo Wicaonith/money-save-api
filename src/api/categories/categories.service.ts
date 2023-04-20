@@ -76,6 +76,7 @@ export class CategoriesService {
   public updateCategory(id: string, categoryParamsDto: CategoryParamsDto): Promise<ReturnApi> {
 
     this.logger.log('[Category] - update() - ' + id + ' - ', { ...categoryParamsDto });
+        //TODO Lorsqu'on modifie une Category, il faut UPDATE toutes les transactions qui ont cette Category associé
     return this.categoriesMetier.update(id, categoryParamsDto);
   }
 

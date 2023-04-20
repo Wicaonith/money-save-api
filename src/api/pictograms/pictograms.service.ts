@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PictogramsMetier } from 'src/metiers/pictograms-metier/pictograms.metier';
+import { PictogramParamsDto } from 'src/models/dto/params/pictogram-params.dto';
 import { PictogramDto } from 'src/models/dto/pictogram.dto';
+import { ReturnApi } from 'src/models/interfaces/return-api.interface';
 
 /**
  * Classe Service liés aux Pictograms
@@ -36,5 +38,11 @@ export class PictogramsService {
 
     this.logger.log('[Pictogram] - findAllPictogram()');
     return this.pictogramsMetier.findAll();
+  }
+
+  public createMultiplePictogram(pictogramParamsDto: PictogramParamsDto[]): Promise<ReturnApi> {
+
+    this.logger.log('[Pictogram] - addMultiple()');
+    return this.pictogramsMetier.addMultiple(pictogramParamsDto);
   }
 }

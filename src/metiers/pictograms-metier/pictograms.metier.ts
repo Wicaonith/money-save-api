@@ -105,4 +105,10 @@ export class PictogramsMetier {
         }
         return ErrorManagementService.success('Pictogram deleted.');
     }
+
+    async addMultiple(pictogramParamsDto: PictogramParamsDto[]): Promise<ReturnApi> {
+        const options = { ordered: true };
+        await this.model.insertMany(pictogramParamsDto, options);
+        return ErrorManagementService.success('Pictogram created.');
+    }
 }

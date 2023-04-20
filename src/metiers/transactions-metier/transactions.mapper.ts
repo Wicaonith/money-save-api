@@ -16,9 +16,9 @@ export class TransactionsMapper {
      */
     static documentToDtoArray(datas: TransactionDocument[]): TransactionDto[] {
 
-        let retour: TransactionDto[] = new Array();
+        let retour : TransactionDto[] = new Array();
 
-        for (var data of datas) {
+        for(var data of datas) {
             let transactionDto = this.documentToDto(data);
             retour.push(transactionDto);
         }
@@ -35,7 +35,7 @@ export class TransactionsMapper {
      * @memberof TransactionsMapper
      */
     static documentToDto(data: TransactionDocument): TransactionDto {
-        const { _id, transactionDate, month, amount, account, budget, note } = data;
+        const { _id, transactionDate,  month, amount, account, budget, note } = data;
 
         let transactionDto: TransactionDto = {
             fId: _id,
