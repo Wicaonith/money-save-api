@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { BudgetsMetier } from 'src/metiers/budgets-metier/budgets.metier';
 import { CategoriesMetier } from 'src/metiers/categories-metier/categories.metier';
 import { PictogramsMetier } from 'src/metiers/pictograms-metier/pictograms.metier';
+import { TransactionsMetier } from 'src/metiers/transactions-metier/transactions.metier';
 import { BudgetDto } from 'src/models/dto/budget.dto';
 import { BudgetParamsDto } from 'src/models/dto/params/budget-params.dto';
 import { ReturnApi } from 'src/models/interfaces/return-api.interface';
@@ -31,7 +32,8 @@ export class BudgetsService {
    */
   constructor(private budgetsMetier: BudgetsMetier,
     private categoriesMetier: CategoriesMetier,
-    private pictogramsMetier: PictogramsMetier) { }
+    private pictogramsMetier: PictogramsMetier,
+    private transactionsMetier: TransactionsMetier) { }
 
   /**
    * Méthode permettant de créer un document dans la collection Budgets
@@ -86,11 +88,18 @@ export class BudgetsService {
    * @return {*}  {Promise<ReturnApi>} - ReturnApi - Retour de l'API
    * @memberof BudgetsService
    */
-  public updateBudget(id: string, budgetParamsDto: BudgetParamsDto): Promise<ReturnApi> {
+  public async updateBudget(id: string, budgetParamsDto: BudgetParamsDto): Promise<ReturnApi> {
 
     this.logger.log('[Budget] - update() - ' + id + ' - ', { ...budgetParamsDto });
-    //TODO Lorsqu'on modifie un budget, il faut UPDATE toutes les transactions qui ont ce Budget associé
-    return this.budgetsMetier.update(id, budgetParamsDto);
+
+    // Mise à jour du Budget
+    let ret = await this.budgetsMetier.update(id, budgetParamsDto);
+    // Si ça s'est bien passé
+    if(ret.success){
+      // Mise à jour des transactions lié à ce budget
+      await this.transactionsMetier.updateBudgetsMany(budgetParamsDto);
+    } 
+    return ret;
   }
 
   /**

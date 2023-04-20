@@ -1,5 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { BudgetsMetier } from 'src/metiers/budgets-metier/budgets.metier';
 import { CategoriesMetier } from 'src/metiers/categories-metier/categories.metier';
+import { TransactionsMetier } from 'src/metiers/transactions-metier/transactions.metier';
 import { CategoryDto } from 'src/models/dto/category.dto';
 import { CategoryParamsDto } from 'src/models/dto/params/category-params.dto';
 import { ReturnApi } from 'src/models/interfaces/return-api.interface';
@@ -25,7 +27,9 @@ export class CategoriesService {
    * @param {CategoriesMetier} categoriesMetier - Service Metier Categories
    * @memberof CategoriesService
    */
-  constructor(private categoriesMetier: CategoriesMetier) { }
+  constructor(private categoriesMetier: CategoriesMetier,
+    private transactionsMetier: TransactionsMetier,
+    private budgetsMetier: BudgetsMetier) { }
 
   /**
    * Méthode permettant de créer un document dans la collection Categories
@@ -53,13 +57,13 @@ export class CategoriesService {
   }
 
     /**
-   * Méthode récupérant tous les documents Categories lié à l'userId
-   *
-   * @param {string} userId - Identifiant utilisateur du document Categories
-   * @return {*}  {Promise<CategoryDto[]>} - DTO Category
-   * @memberof CategoriesService
-   */
-     public findAllCategoryByUser(userId: string): Promise<CategoryDto[]> {
+     * Méthode récupérant tous les documents Categories lié à l'userId
+     *
+     * @param {string} userId - Identifiant utilisateur du document Categories
+     * @return {*}  {Promise<CategoryDto[]>} - DTO Category
+     * @memberof CategoriesService
+     */
+    public findAllCategoryByUser(userId: string): Promise<CategoryDto[]> {
 
       this.logger.log('[Category] - findAllByUserId() - ' + userId);
       return this.categoriesMetier.findAllByUserId(userId);
@@ -73,11 +77,20 @@ export class CategoriesService {
    * @return {*}  {Promise<ReturnApi>} - ReturnApi - Retour de l'API
    * @memberof CategoriesService
    */
-  public updateCategory(id: string, categoryParamsDto: CategoryParamsDto): Promise<ReturnApi> {
-
+  public async updateCategory(id: string, categoryParamsDto: CategoryParamsDto): Promise<ReturnApi> {
+    
     this.logger.log('[Category] - update() - ' + id + ' - ', { ...categoryParamsDto });
-        //TODO Lorsqu'on modifie une Category, il faut UPDATE toutes les transactions qui ont cette Category associé
-    return this.categoriesMetier.update(id, categoryParamsDto);
+        
+    // Mise à jour de la category
+    let ret = await this.categoriesMetier.update(id, categoryParamsDto);
+        // Si ça s'est bien passé
+        if(ret.success){
+          // Mise à jour des transactions lié à cette Category
+          await this.transactionsMetier.updateCategoriesMany(categoryParamsDto);
+          // Mise à jour des Budgets lié à cette Category
+          await this.budgetsMetier.updateCategoriesMany(categoryParamsDto);
+        } 
+        return ret;
   }
 
   /**

@@ -8,6 +8,7 @@ import { ReturnApi } from 'src/models/interfaces/return-api.interface';
 import { Budget, BudgetDocument } from '../../models/schemas/budgets.schema';
 import { ErrorManagementService } from '../commun/core/error-management.service';
 import { BudgetsMapper } from './budgets.mapper';
+import { CategoryParamsDto } from 'src/models/dto/params/category-params.dto';
 
 @Injectable()
 export class BudgetsMetier {
@@ -87,6 +88,15 @@ export class BudgetsMetier {
             return ErrorManagementService.failed('Budget update failed.', CodeError.FC0003_D0004);
         }
         return ErrorManagementService.success('Budget updated.');
+    }
+
+    async updateCategoriesMany(category: CategoryParamsDto): Promise<ReturnApi> {
+        // Modification du Category d'un Budget
+        let ret = await this.model.updateMany({ "category.fId": category.fId }, { "category": category }).exec();
+        if (!ret.acknowledged) {
+            return ErrorManagementService.failed('Update many Transactions for Category failed.', CodeError.FC0005_D0008);
+        }
+        return ErrorManagementService.success(ret.modifiedCount + ' Transactions updated.');
     }
 
     /**

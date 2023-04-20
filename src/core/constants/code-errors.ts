@@ -38,6 +38,8 @@ export const CodeError = {
     FC0005_D0004: 'FC0005.D0004', // D0004 'Transaction update failed'
     FC0005_D0005: 'FC0005.D0005', // D0005 'No Transaction deleted.'
     FC0005_D0006: 'FC0005.D0006', // D0006 'Transaction delete failed.'
+    FC0005_D0007: 'FC0005.D0007', // D0007 'Update many Transactions for Budget failed.'
+    FC0005_D0008: 'FC0005.D0008', // D0008 'Update many Transactions for Category failed.'
 
     // FC0006 Correspond au service Customers
     FC0006_D0001: 'FC0006.D0001', // D0001 'Customer not found.'
