@@ -33,14 +33,15 @@ export class AccountsMapper {
      * @memberof AccountsMapper
      */
     static documentToDto(data: AccountDocument): AccountDto {
-        const { _id, userId, label, typeAccount, displayOrder } = data;
+        const { _id, userId, label, typeAccount, displayOrder,amount } = data;
 
         let accountDto: AccountDto = {
             fId: _id,
             userId,
             label,
             typeAccount,
-            displayOrder
+            displayOrder,
+            amount
         };
         return accountDto;
     }
@@ -55,14 +56,15 @@ export class AccountsMapper {
      */
     static dtoToParams(data: AccountDto): AccountParamsDto {
 
-        const { fId, userId, label, typeAccount, displayOrder } = data;
+        const { fId, userId, label, typeAccount, displayOrder,amount } = data;
 
         let accountParamsDto: AccountParamsDto = {
             fId,
             userId,
             label,
             typeAccount,
-            displayOrder
+            displayOrder,
+            amount
         };
 
         return accountParamsDto;
