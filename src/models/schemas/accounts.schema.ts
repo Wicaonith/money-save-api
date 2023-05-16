@@ -30,6 +30,10 @@ export class Account {
     @Prop({ required: true })
     @ApiProperty({ type: Number })
     displayOrder: number;
+
+    @Prop()
+    @ApiProperty({ type: Number})
+    amount: number;
 }
 
 export const AccountSchema = SchemaFactory.createForClass(Account);

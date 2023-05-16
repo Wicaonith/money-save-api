@@ -5,6 +5,7 @@ import { TransactionDto } from 'src/models/dto/transaction.dto';
 import { ReturnApi } from 'src/models/interfaces/return-api.interface';
 import { BudgetsService } from '../budgets/budgets.service';
 import { AccountsService } from '../accounts/accounts.service';
+import { AccountParamsDto } from 'src/models/dto/params/account-params.dto';
 
 /**
  * Classe Service liés aux Transactions
@@ -43,6 +44,14 @@ export class TransactionsService {
   public createTransaction(transactionParamsDto: TransactionParamsDto): Promise<ReturnApi> {
     
     this.logger.log('[Transaction] - create() - ', { ...transactionParamsDto });
+
+    // Update l'Account lié à a la transaction en faisant amount + transaction.amount
+    let accountToUpdate: AccountParamsDto = transactionParamsDto.account;
+    accountToUpdate.amount = accountToUpdate.amount + transactionParamsDto.amount;
+
+    this.accountsService.updateAccount(accountToUpdate.fId, accountToUpdate);
+
+    // Création de la transaction
     return this.transactionsMetier.create(transactionParamsDto);
   }
 
@@ -58,9 +67,7 @@ export class TransactionsService {
     this.logger.log('[Transaction] - findById() - ' + id);
 
     // Récupération de la transaction
-    let transactionDto = await this.transactionsMetier.findById(id);
-
-    return this.fillTransactionsAttributs(transactionDto);
+    return await this.transactionsMetier.findById(id);
   }
 
   /**
@@ -122,6 +129,7 @@ export class TransactionsService {
   }
 
   /**
+   * * A Garder au cas où on fill vraiment a la place de update tout
    * Méthode permettant de récupérer les DTO Budget et Account
    *
    * @private
@@ -131,13 +139,13 @@ export class TransactionsService {
    */
   private async fillTransactionsAttributs(transaction: TransactionDto): Promise<TransactionDto> {
 
-  // Récupération de la catégory lié au budget
-  transaction.account = await this.accountsService.findOneAccount(transaction.account.fId);
+    // Récupération de la catégory lié au budget
+    transaction.account = await this.accountsService.findOneAccount(transaction.account.fId);
 
-  // Récupération du picto lié au budget
-  transaction.budget = await this.budgetsService.findOneBudget(transaction.budget.fId);
+    // Récupération du picto lié au budget
+    transaction.budget = await this.budgetsService.findOneBudget(transaction.budget.fId);
 
-  // Retour
-  return transaction;
-}
+    // Retour
+    return transaction;
+  }
 }

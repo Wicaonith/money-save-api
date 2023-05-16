@@ -26,4 +26,7 @@ export class AccountParamsDto {
     @ApiProperty({ type: Number })
     @IsNotEmpty()
     displayOrder: number;
+
+    @ApiProperty({ type: Number})
+    amount: number;
 }
